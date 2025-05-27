@@ -1,0 +1,99 @@
+/* Paleta beige y azul marino equilibrada */
+:root {
+  --primary-color: #25416b;      /* Azul marino elegante */
+  --secondary-color: #ede3d1;    /* Beige suave para tarjetas y elementos */
+  --background-light: #f7f3ec;   /* Beige claro para fondo general */
+  --background-dark: #1a2940;    /* Azul marino profundo para detalles */
+  --accent-color: #b6c3d6;       /* Azul grisáceo para acentos */
+  --text-primary: #25416b;       /* Azul marino para textos importantes */
+  --text-secondary: #7a6c5d;     /* Marrón grisáceo para textos secundarios */
+  --border-color: #d6c7b0;       /* Beige medio para bordes */
+  --hover-color: #3a5a8c;        /* Azul marino más claro para hover */
+}
+
+/* Fondo y texto base */
+body {
+  background-color: var(--background-light);
+  color: var(--text-primary);
+}
+
+/* Header */
+header {
+  background: linear-gradient(90deg, var(--primary-color) 80%, var(--background-dark) 100%);
+  color: var(--secondary-color);
+  border-bottom: 3px solid var(--accent-color);
+}
+
+/* Navegación */
+header nav a {
+  color: var(--secondary-color);
+}
+header nav a:hover {
+  color: var(--accent-color);
+}
+
+/* Botones */
+.btn-primary {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.btn-primary:hover {
+  background: var(--hover-color);
+  color: #fff;
+}
+.btn-secondary {
+  background: var(--secondary-color);
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+.btn-secondary:hover {
+  background: var(--accent-color);
+  color: var(--primary-color);
+}
+
+/* Tarjetas y formularios */
+.post-card, .new-post-form, .model-viewer {
+  background: var(--secondary-color);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(37, 65, 107, 0.08);
+}
+.post-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 8px 12px rgba(37, 65, 107, 0.12);
+}
+
+/* Formularios */
+form input,
+form textarea {
+  background: #fff;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+form input:focus,
+form textarea:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 2px var(--accent-color);
+}
+
+/* Títulos */
+h1, h2, h3, h4 {
+  color: var(--primary-color);
+  font-weight: 700;
+}
+
+/* Footer */
+footer {
+  background: var(--primary-color);
+  color: var(--secondary-color);
+  border-top: 3px solid var(--accent-color);
+}

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Printly - Red Social de Modelaje 3D y Reciclaje Sostenible</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/OBJLoader.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+  <style>
+    body { font-family: 'Roboto', sans-serif; }
+    h1, h2, h3 { font-family: 'Playfair Display', serif; }
+    .model-viewer-canvas { width: 100%; height: 300px; display: block; }
+  </style>
+</head>
+<body class="bg-[var(--background-light)] text-[var(--text-primary)]">
+  <header class="bg-[var(--primary-color)] text-[var(--background-light)] p-4 shadow-lg">
+    <div class="container mx-auto flex justify-between items-center">
+        <h1 class="text-3xl font-extrabold tracking-wide">Printly</h1>
+        <nav>
+            <ul class="flex space-x-6 text-lg">
+                <li><a href="#feed" class="hover:text-[var(--accent-color)] transition-colors">Inicio</a></li>
+                <li><a href="#contacto" class="hover:text-[var(--accent-color)] transition-colors">Contacto</a></li>
+            </ul>
+        </nav>
+        <div id="header-auth" class="space-x-4">
+            <!-- Este contenido se actualizará dinámicamente según el estado de autenticación -->
+        </div>
+    </div>
+  </header>
+
+  <main class="container mx-auto p-6">
+    <!-- Sección de creación de post -->
+    <section id="crear-post" class="mb-12 hidden"> <!-- Añadido hidden por defecto -->
+      <h2 class="text-3xl font-extrabold mb-6 text-center text-[var(--primary-color)]">Publicar Modelo 3D</h2>
+      <form id="postForm" class="bg-white rounded-lg shadow-md p-6 max-w-2xl mx-auto space-y-4" enctype="multipart/form-data">
+        <div>
+            <label for="titulo" class="block font-semibold mb-1">Título o Explicación del Modelo</label>
+            <input id="titulo" type="text" required class="w-full p-2 border rounded" placeholder="Título o explicación breve">
+        </div>
+        <div>
+            <label for="modelo3d" class="block font-semibold mb-1">Adjunta tu Modelo 3D (.glb, .gltf o .obj)</label>
+            <input id="modelo3d" type="file" accept=".glb,.gltf,.obj" required class="w-full p-2 border rounded bg-white">
+        </div>
+        <button type="submit" class="btn-primary w-full flex items-center justify-center gap-2">
+            <i class="fas fa-paper-plane"></i> Publicar
+        </button>
+    </form>
+    </section>
+
+    <!-- Añade esta sección para usuarios no autenticados -->
+    <section id="login-required" class="mb-12 text-center">
+        <h2 class="text-2xl font-bold mb-4">Inicia sesión para publicar</h2>
+        <p class="mb-4">Necesitas una cuenta para compartir tus modelos 3D</p>
+        <div class="space-x-4">
+            <a href="login.html" class="btn-primary inline-block">Iniciar Sesión</a>
+            <a href="register.html" class="btn-secondary inline-block">Registrarse</a>
+        </div>
+    </section>
+
+    <!-- Feed de publicaciones -->
+    <section id="feed">
+      <h2 class="text-3xl font-extrabold mb-6 text-center text-[var(--primary-color)]">Feed de Modelos 3D</h2>
+      <div id="posts" class="grid grid-cols-1 md:grid-cols-2 gap-8"></div>
+    </section>
+  </main>
+
+  <footer class="bg-[var(--primary-color)] text-[var(--background-light)] p-4 text-center">
+    &copy; 2025 Printly. Todos los derechos reservados.
+  </footer>
+
+  <script type="module" src="js/api.js"></script>
+  <script type="module" src="js/main.js"></script>
+  <script>
+document.getElementById('postForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    
+    const formData = new FormData();
+    formData.append('file', document.getElementById('modelo3d').files[0]);
+    formData.append('titulo', document.getElementById('titulo').value);
+    formData.append('usuario', document.getElementById('usuario').value);
+
+    try {
+        const response = await fetch('http://localhost:8080/api/modelos/subir', {
+            method: 'POST',
+            body: formData
+        });
+
+        const data = await response.json();
+        
+        if (response.ok) {
+            alert('Modelo subido correctamente');
+            location.reload();
+        } else {
+            alert(data.error || 'Error al subir el modelo');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Error al subir el modelo');
+    }
+});
+</script>
+</body>
+</html>
